@@ -1,0 +1,28 @@
+.map {
+  margin: 20px;
+  box-sizing: border-box;
+}
+
+.map.map-initial .map-region:not([data-id="-1"]) path{
+  fill: #007b32;
+}
+.map.map-initial .map-region[data-id="-1"] path{
+  fill: #FF0000;
+}
+
+.map .map-region:not([data-id="-1"]):hover path{
+  fill:#006227;
+}
+
+.map .map-region[data-id="-1"]:hover path {
+  fill:#cc0000;
+}
+
+.map .map-region:not([data-id="-1"])[data-selected] path{
+  fill:#004e1f;
+}
+
+.map .map-region[data-id="-1"][data-selected] path{
+  fill:#a30000;
+} 
+

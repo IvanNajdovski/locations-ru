@@ -1,0 +1,74 @@
+trigger:
+  batch: "true"
+  branches:
+    include:
+    - preprod
+    - master
+  paths:
+    exclude:
+    - README.md
+
+pool:
+    vmImage: 'ubuntu-latest'
+    workspace:
+      clean: all
+variables:
+    - group : Navitas-Microsites-Castrol-Russia-Location-Filters-Map-Preprod
+    - group: Blackduck-Navitas
+resources:
+  repositories:
+  - repository: TemplatesSecurity
+    type: git
+    name: AES/ads-ado-templates-security
+  - repository: AdsTemplatesUtilities
+    type: git
+    name: AES/ads-ado-templates-utilities
+    ref: refs/tags/2.x
+  - repository: templates
+    type: git
+    name: FNC-AECF-AE_Group_Tech_and_Corporate_Functions/Navitas-ado-templates
+  - repository: AdsTemplatesSecurity
+    type: git
+    name: AES/ads-ado-templates-security
+    ref: refs/tags/2.x
+  - repository: TemplatesBuild
+    type: git
+    name: AES/ads-ado-templates-build 
+
+stages:
+  - stage: Deploy_To_Preprod
+    displayName: Deploy_To_Preprod
+    variables:
+    - group: Navitas-Microsites-Castrol-Russia-Location-Filters-Map-Preprod
+    jobs:
+        - job : build
+          displayName: 'build'
+          steps:
+          - template: /templates-common/sast/checkmarx/steps/scan-checkmarx.yml@TemplatesSecurity
+            parameters:
+              serviceName: 'Checkmarx-Navitas'
+              projectName: 'Navitas-Microsites-Castrol-Russia-Location-Filters-Map-NavApp'
+              teamName: 'CxServer\BP Services\Functions\AE and Corporate Functions\Navitas'
+              preset: 'ASA-SDLC'
+              vulnerabilityThreshold: false
+              syncMode: false
+              synchronise: false
+              targetBranch: 'refs/heads/preprod'
+          - template: ado-templates/build.yml@templates
+            parameters:
+                artifactName: $(ARTIFACT_NAME)
+          - template: templates-common/sca/blackduck/steps/scan-blackduck.yml@TemplatesSecurity
+            parameters:
+              blackduckUserName: '$(Username)'
+              blackduckPassword: '$(Password)'
+              blackDuckLoggingLevel: DEBUG
+              additionalArgs: ""
+          - task: S3Upload@1
+            displayName: 'Deploy-To-S3'
+            inputs:
+              awsCredentials: 'navitas-preprod-s3'
+              regionName: 'eu-west-1'
+              bucketName: 'navapp-preprod'
+              sourceFolder: '$(Build.SourcesDirectory)/build'
+              globExpressions: '**'
+              targetFolder: 'castrol-ru-location-filter'
