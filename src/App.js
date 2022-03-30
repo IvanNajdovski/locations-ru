@@ -35,14 +35,14 @@ function App() {
         {Object.keys(filteredBusinesses).map((regionName) => {
           if (!filteredBusinesses[regionName]?.length) return null;
           return (
-            <motion.div layout className="company">
+            <div className="company">
               <div className="company--town">{regionName}</div>
               <div className="companies">
                 {filteredBusinesses[regionName].map((companyInfo) => (
                   <Company {...companyInfo} />
                 ))}
               </div>
-            </motion.div>
+            </div>
           );
         })}
       </React.Fragment>

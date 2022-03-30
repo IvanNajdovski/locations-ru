@@ -19,7 +19,7 @@ const Map = () => {
         </MapRegion>
       );
     });
-  });
+  }, [regionsData]);
 
   const regionsBordersComponent = useMemo(() => {
     return regionsBorderData.map((border, index) => {

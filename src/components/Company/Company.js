@@ -29,29 +29,18 @@ const Company = ({ address, contacts, site, companyName }) => {
   const handleClick = () => setIsShown((isShown) => !isShown);
 
   return (
-    <motion.div className="company-info--wrapper" layout>
+    <div className="company-info--wrapper">
       <AnimatePresence>
-        <motion.div onClick={handleClick} className="company-info" layout>
+        <div onClick={handleClick} className="company-info">
           {isShown ? (
             <img className="company--icon" src={arrow_up} alt="collapse" />
           ) : (
             <img className="company--icon" src={arrow_down} alt="expand" />
           )}
           {companyName}
-        </motion.div>
+        </div>
         {isShown && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 0.5,
-              },
-            }}
-            exit={{ opacity: 0 }}
-            className="company-info--content"
-            layout
-          >
+          <div className="company-info--content">
             <table>
               <tr>
                 <td>Адрес:</td>
@@ -75,10 +64,10 @@ const Company = ({ address, contacts, site, companyName }) => {
                 </tr>
               )}
             </table>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 
