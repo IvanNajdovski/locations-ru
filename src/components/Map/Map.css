@@ -10,12 +10,20 @@
   fill: #00c851;
 }
 
+.map.map-initial .map-region[data-id="-2"] path{
+  fill: #c800002c;
+}
+
 .map .map-region:not([data-id="-1"]):hover path{
   fill:#006227;
 }
 
 .map .map-region[data-id="-1"]:hover path {
   fill:#00b549;
+}
+
+.map.map-initial .map-region[data-id="-2"] path{
+  fill: #c8000017;
 }
 
 .map .map-region:not([data-id="-1"])[data-selected] path{
