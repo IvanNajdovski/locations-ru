@@ -12,7 +12,7 @@ const Map = () => {
     return regionsData.map((region, index) => {
       if (!region.path) return;
       return (
-        <MapRegion key={index} href="#" region={region.label} id={region.value}>
+        <MapRegion key={index} href="#" region={region.label} id={region.value} noEvents={region.noEvents}>
           {region.path.map((path) => (
             <path d={path} fill="#f0f0f0" stroke={region.value == -1 ? "white" : undefined} />
           ))}

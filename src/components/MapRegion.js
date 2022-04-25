@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../state/index";
 
-const MapRegion = ({ region: dataRegion, id, children }) => {
+const MapRegion = ({ region: dataRegion, noEvents, id, children }) => {
+  console.log(dataRegion);
   const [hoveredRegion, setHoveredRegion] = useState();
   const { setRegion, setHoveredRegion: setHoveredRegionState, region } = useContext(AuthContext);
 
@@ -29,7 +30,7 @@ const MapRegion = ({ region: dataRegion, id, children }) => {
       data-id={id}
       onMouseEnter={handleHover}
       onMouseLeave={handleUnHover}
-      onClick={handleClick}
+      onClick={!noEvents && handleClick}
       className="map-region"
       data-selected={region?.label === dataRegion ? true : undefined}
     >

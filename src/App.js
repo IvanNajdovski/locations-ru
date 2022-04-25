@@ -104,7 +104,7 @@ function App() {
               <BusinessSelect options={businessSelectData} />
             </div>
             <div className="select">
-              <RegionSelect options={regionsSelectData.map(({ path, ...region }) => region)} />
+              <RegionSelect options={regionsSelectData.map(({ path, ...region }) => region).filter((region) => !region.noEvents)} />
             </div>
           </div>
           <button className="clear-link" onClick={clearDealers}>
